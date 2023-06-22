@@ -2,7 +2,7 @@
 
 /**
  * print_line - straight
- * @n: No 
+ * @n: No
  * Return: Always 0
  */
 
