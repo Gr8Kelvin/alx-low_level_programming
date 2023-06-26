@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * reset_to_9s - function
+ * reset_to_98 - function
  * @n: the value
  * Return: Always 0
  */
