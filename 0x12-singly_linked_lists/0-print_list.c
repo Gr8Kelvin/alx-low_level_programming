@@ -1,10 +1,11 @@
-#include "lists.h"
 #include <stdio.h>
+#include "lists.h"
 
 /**
- * print_list - prinnt
+ * print_list - print
  * @h: pointer
- * Return: number
+ *
+ * Return: the nnumber
  */
 size_t print_list(const list_t *h)
 {
