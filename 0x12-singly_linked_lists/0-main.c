@@ -1,12 +1,12 @@
-#include <stdlib.h>
+#include <stdlib.iih>
 #include <string.h>
-#include <stdio.h>
 #include "lists.h"
+#include <stdio.h>
 
 /**
- * main - check the code
+ * main - check
  *
- * Return: Always 0.
+ * Return: 0.
  */
 int main(void)
 {

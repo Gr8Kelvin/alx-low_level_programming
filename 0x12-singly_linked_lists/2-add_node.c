@@ -1,12 +1,11 @@
-#include <stdlib.h>
 #include <string.h>
 #include "lists.h"
+#include <stdlib.h>
 
 /**
  * add_node - adds a new node
  * @head: double pointer to the list_t list
  * @str: new string
- *
  * Return: the address
  */
 list_t *add_node(list_t **head, const char *str)
