@@ -6,32 +6,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void chk_elf(unsigned char *e_idt);
-void prt_mgc(unsigned char *e_idt);
-void prt_class(unsigned char *e_idt);
-void prt_data(unsigned char *e_idt);
-void prt_vs(unsigned char *e_idt);
-void prt_abi(unsigned char *e_idt);
-void prt_osabi(unsigned char *e_idt);
-void prt_type(unsigned int e_type, unsigned char *e_idt);
-void prt_entry(unsigned long int e_entry, unsigned char *e_idt);
+void chk_elf(unsigned char *e_ident);
+void prt_mgc(unsigned char *e_ident);
+void prt_class(unsigned char *e_ident);
+void prt_data(unsigned char *e_ident);
+void prt_vs(unsigned char *e_ident);
+void prt_abi(unsigned char *e_ident);
+void prt_osabi(unsigned char *e_ident);
+void prt_type(unsigned int e_type, unsigned char *e_ident);
+void prt_entry(unsigned long int e_entry, unsigned char *e_ident);
 void close_elf(int elf);
 
 /**
  * chk_elf - Checks
- * @e_idt: A pointer
+ * @e_ident: A pointer
  * Description: exit code 98.
  */
-void chk_elf(unsigned char *e_idt)
+void chk_elf(unsigned char *e_ident)
 {
 	int ind;
 
 	for (ind = 0; ind < 4; ind++)
 	{
-		if (e_idt[ind] != 127 &&
-				e_idt[ind] != 'E' &&
-				e_idt[ind] != 'L' &&
-				e_idt[ind] != 'F')
+		if (e_ident[ind] != 127 &&
+				e_ident[ind] != 'E' &&
+				e_ident[ind] != 'L' &&
+				e_ident[ind] != 'F')
 		{
 			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
@@ -41,10 +41,10 @@ void chk_elf(unsigned char *e_idt)
 
 /**
  * prt_mgc - Prints the magic numbers
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  * Description: Magic numbers
  */
-void prt_mgc(unsigned char *e_idt)
+void prt_mgc(unsigned char *e_ident)
 {
 	int ind;
 
@@ -52,7 +52,7 @@ void prt_mgc(unsigned char *e_idt)
 
 	for (ind = 0; ind < EI_NIDENT; ind++)
 	{
-		printf("%02x", e_idt[ind]);
+		printf("%02x", e_ident[ind]);
 
 		if (ind == EI_NIDENT - 1)
 			printf("\n");
@@ -63,13 +63,13 @@ void prt_mgc(unsigned char *e_idt)
 
 /**
  * prt_class - Prints the class
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_class(unsigned char *e_idt)
+void prt_class(unsigned char *e_ident)
 {
 	printf(" Class: ");
 
-	switch (e_idt[EI_CLASS])
+	switch (e_ident[EI_CLASS])
 	{
 		case ELFCLASSNONE:
 			printf("none\n");
@@ -81,19 +81,19 @@ void prt_class(unsigned char *e_idt)
 			printf("ELF64\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_idt[EI_CLASS]);
+			printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
 }
 
 /**
  * prt_data - Prints the data
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_data(unsigned char *e_idt)
+void prt_data(unsigned char *e_ident)
 {
 	printf(" Data: ");
 
-	switch (e_idt[EI_DATA])
+	switch (e_ident[EI_DATA])
 	{
 		case ELFDATANONE:
 			printf("none\n");
@@ -105,20 +105,20 @@ void prt_data(unsigned char *e_idt)
 			printf("2's complement, big endian\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_idt[EI_CLASS]);
+			printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
 }
 
 /**
  *prt_vs - Prints the version
- *@e_idt: A pointer to an array.
+ *@e_ident: A pointer to an array.
  */
-void prt_vs(unsigned char *e_idt)
+void prt_vs(unsigned char *e_ident)
 {
 	printf(" Version: %d",
-			e_idt[EI_VERSION]);
+			e_ident[EI_VERSION]);
 
-	switch (e_idt[EI_VERSION])
+	switch (e_ident[EI_VERSION])
 	{
 		case EV_CURRENT:
 			printf(" (current)\n");
@@ -131,13 +131,13 @@ void prt_vs(unsigned char *e_idt)
 
 /**
  * prt_osabi - Prints the OS/ABI
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_osabi(unsigned char *e_idt)
+void prt_osabi(unsigned char *e_ident)
 {
 	printf(" OS/ABI: ");
 
-	switch (e_idt[EI_OSABI])
+	switch (e_ident[EI_OSABI])
 	{
 		case ELFOSABI_NONE:
 			printf("UNIX - System V\n");
@@ -170,28 +170,28 @@ void prt_osabi(unsigned char *e_idt)
 			printf("Standalone App\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_idt[EI_OSABI]);
+			printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 	}
 }
 
 /**
  * prt_abi - Prints the ABI version
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_abi(unsigned char *e_idt)
+void prt_abi(unsigned char *e_ident)
 {
 	printf(" ABI Version: %d\n",
-			e_idt[EI_ABIVERSION]);
+			e_ident[EI_ABIVERSION]);
 }
 
 /**
  * prt_type - Prints
  * @e_type: The ELF type.
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_type(unsigned int e_type, unsigned char *e_idt)
+void prt_type(unsigned int e_type, unsigned char *e_ident)
 {
-	if (e_idt[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 		e_type >>= 8;
 
 	printf(" Type: ");
@@ -221,20 +221,20 @@ void prt_type(unsigned int e_type, unsigned char *e_idt)
 /**
  * prt_entry - Prints the entry point
  * @e_entry: The address of the ELF
- * @e_idt: A pointer to an array
+ * @e_ident: A pointer to an array
  */
-void prt_entry(unsigned long int e_entry, unsigned char *e_idt)
+void prt_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 	printf(" Entry point address: ");
 
-	if (e_idt[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 	{
 		e_entry = ((e_entry << 8) & 0xFF00FF00) |
 			((e_entry >> 8) & 0xFF00FF);
 		e_entry = (e_entry << 16) | (e_entry >> 16);
 	}
 
-	if (e_idt[EI_CLASS] == ELFCLASS32)
+	if (e_ident[EI_CLASS] == ELFCLASS32)
 		printf("%#x\n", (unsigned int)e_entry);
 
 	else
@@ -261,7 +261,7 @@ void close_elf(int elf)
  * @argc: The number of arguments
  * @argv: An array of pointers
  * Return: 0 on suc
- * Description: If function fails - exit code 98.
+ * Description: exit code 98.
  */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
